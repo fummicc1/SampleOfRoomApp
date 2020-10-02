@@ -1,5 +1,6 @@
 package dev.fummicc1.sample.sampleofroomapp.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import dev.fummicc1.sample.sampleofroomapp.entity.Todo
 
@@ -12,7 +13,7 @@ interface TodoDao {
     fun delete(todo: Todo)
 
     @Query("select * from todo")
-    fun getAll(): List<Todo>
+    fun getAll(): LiveData<List<Todo>>
 
     @Query("select * from todo where id = :id")
     fun getTodo(id: Int): Todo?
