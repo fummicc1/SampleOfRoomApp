@@ -20,6 +20,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // necessary to use `app:srcCompat` in xml file.
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -27,6 +30,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 }
 
@@ -55,4 +62,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
 }

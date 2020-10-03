@@ -1,12 +1,12 @@
 package dev.fummicc1.sample.sampleofroomapp.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import dev.fummicc1.sample.sampleofroomapp.entity.Todo
 
+
 @Database(entities = [Todo::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class TodoDatabase : RoomDatabase() {
     abstract val todoDao: TodoDao
 
@@ -23,7 +23,8 @@ abstract class TodoDatabase : RoomDatabase() {
                             TodoDatabase::class.java,
                             "todo_database"
                         )
-                            .fallbackToDestructiveMigration().build()
+                            .fallbackToDestructiveMigration()
+                            .build()
                     INSTANCE = instance
                 }
                 return instance

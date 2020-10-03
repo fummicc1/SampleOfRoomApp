@@ -12,9 +12,9 @@ interface TodoDao {
     @Delete
     fun delete(todo: Todo)
 
-    @Query("select * from todo")
+    @Query("SELECT * FROM todo")
     fun getAll(): LiveData<List<Todo>>
 
-    @Query("select * from todo where id = :id")
+    @Query("SELECT * FROM todo WHERE id = :id")
     fun getTodo(id: Int): Todo?
 }
