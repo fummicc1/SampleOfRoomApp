@@ -8,5 +8,6 @@ data class Todo(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val task: String,
     val memo: String,
-    val due: Date?
+    val due: Date?,
+    val imageResourceURL: String?,
 )
