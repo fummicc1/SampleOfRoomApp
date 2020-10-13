@@ -28,6 +28,11 @@ class TodoRecyclerViewAdapter(context: Context): RecyclerView.Adapter<TodoRecycl
 
     override fun getItemCount(): Int = todos.size
 
+    fun updateTodos(todos: List<Todo>) {
+        this.todos = todos
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val todoTaskTextView: TextView = view.findViewById<TextView>(R.id.todo_task_text_view)
     }

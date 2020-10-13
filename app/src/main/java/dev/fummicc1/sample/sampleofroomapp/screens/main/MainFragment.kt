@@ -22,14 +22,19 @@ class MainFragment : Fragment() {
     ): View? {
         val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false)
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.apply {
-            recyclerview.adapter = TodoRecyclerViewAdapter(requireActivity())
+            val adapter = TodoRecyclerViewAdapter(requireActivity())
+            recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(requireActivity())
 
             floatingActionButton.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTodoFragment())
             }
+            viewModel.todos.observe(viewLifecycleOwner, {
+                adapter.updateTodos(it)
+            })
         }
         return binding.root
     }
