@@ -1,17 +1,18 @@
 package dev.fummicc1.sample.sampleofroomapp.screens.main
 
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.fummicc1.sample.sampleofroomapp.R
 import dev.fummicc1.sample.sampleofroomapp.entity.Todo
-import kotlinx.android.synthetic.main.todo_recyclerview_item.view.*
-import java.util.zip.Inflater
 
-class TodoRecyclerViewAdapter(context: Context): RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder>() {
+class TodoRecyclerViewAdapter(val context: Context): RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var todos: List<Todo> = emptyList()
@@ -24,6 +25,16 @@ class TodoRecyclerViewAdapter(context: Context): RecyclerView.Adapter<TodoRecycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val todo = todos[position]
         holder.todoTaskTextView.text = todo.task
+        todo.imageResourceURL?.let {
+            val uri = Uri.parse(it)
+            uri?.let {
+                val inputStream = context.contentResolver.openInputStream(it)
+                inputStream?.let {
+                    val bitmap = BitmapFactory.decodeStream(it)
+                    holder.todoImageView.setImageBitmap(bitmap)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int = todos.size
@@ -34,6 +45,7 @@ class TodoRecyclerViewAdapter(context: Context): RecyclerView.Adapter<TodoRecycl
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val todoTaskTextView: TextView = view.findViewById<TextView>(R.id.todo_task_text_view)
+        val todoTaskTextView: TextView = view.findViewById(R.id.todoTaskTextView)
+        val todoImageView: ImageView = view.findViewById(R.id.todoItemImageView)
     }
 }
