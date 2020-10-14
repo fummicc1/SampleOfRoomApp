@@ -67,7 +67,7 @@ class AddTodoViewModel(application: Application): AndroidViewModel(application) 
         val imageURI = _todoImage.value ?: ""
         val date = Date()
         val todo = Todo(task, memo, date, imageURI)
-        GlobalScope.launch  {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.insert(todo)
             MainScope().launch {
                 _completeSaving.value = Unit

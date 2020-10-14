@@ -26,10 +26,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         todos = repository.allWords
     }
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
-    fun insert(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(todo)
+    fun deleteTodo(todo: Todo) {
+        viewModelScope.launch (Dispatchers.IO) {
+            repository.delete(todo)
+        }
     }
 }

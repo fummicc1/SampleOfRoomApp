@@ -6,16 +6,21 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.fummicc1.sample.sampleofroomapp.R
 import dev.fummicc1.sample.sampleofroomapp.entity.Todo
+import dev.fummicc1.sample.sampleofroomapp.generated.callback.OnClickListener
 
-class TodoRecyclerViewAdapter(val context: Context): RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder>() {
+class TodoRecyclerViewAdapter(val context: Context) :
+    RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var todos: List<Todo> = emptyList()
+
+    lateinit var clickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = inflater.inflate(R.layout.todo_recyclerview_item, parent, false)
@@ -35,6 +40,10 @@ class TodoRecyclerViewAdapter(val context: Context): RecyclerView.Adapter<TodoRe
                 }
             }
         }
+
+        holder.view.setOnClickListener {
+            clickListener.onItemClick(it, position, todos[position])
+        }
     }
 
     override fun getItemCount(): Int = todos.size
@@ -44,8 +53,12 @@ class TodoRecyclerViewAdapter(val context: Context): RecyclerView.Adapter<TodoRe
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val todoTaskTextView: TextView = view.findViewById(R.id.todoTaskTextView)
         val todoImageView: ImageView = view.findViewById(R.id.todoItemImageView)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int, todo: Todo)
     }
 }
